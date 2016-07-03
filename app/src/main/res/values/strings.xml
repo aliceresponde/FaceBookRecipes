@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">FaceBookRecipes</string>
+    <string name="login.error">Imposible iniciar sersion %s</string>
+    <string name="login.cancel.error">Inicio de sersion cancelado</string>
 </resources>

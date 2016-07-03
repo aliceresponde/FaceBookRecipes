@@ -8,6 +8,7 @@
     tools:context="com.example.alice.facebookrecipes.login.ui.LoginActivity">
 
     <com.facebook.login.widget.LoginButton
+        android:id="@+id/btnLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
