@@ -1,8 +1,19 @@
+buildscript {
+    repositories {
+        maven { url 'https://maven.fabric.io/public' }
+    }
+
+    dependencies {
+        classpath 'io.fabric.tools:gradle:1.+'
+    }
+}
 apply plugin: 'com.android.application'
+apply plugin: 'io.fabric'
 apply plugin: 'com.neenbedankt.android-apt'
 
 repositories {
     mavenCentral()  //fb
+    maven { url 'https://maven.fabric.io/public' }
 }
 
 
@@ -17,27 +28,43 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+//    buildTypes {
+//        release {
+//            minifyEnabled false
+//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+//
+//
+//            resValue "string", "FACEBOOK_PROVIDER_AUTH", project.property('FACEBOOK_PROVIDER') + project.property('FACEBOOK_APP_ID')
+//            resValue "string", "FACEBOOK_APP_ID", project.property('FACEBOOK_APP_ID')
+//
+//            //para acceder desde el codigo , por eso debe ser String con may
+//            buildConfigField "String", "FOOD_API_KEY", project.property('FOOD_API_KEY')
+//        }
+//
+//        debug {
+//            resValue "string", "FACEBOOK_PROVIDER_AUTH", project.property('FACEBOOK_PROVIDER') + project.property('FACEBOOK_APP_ID')
+//            resValue "string", "FACEBOOK_APP_ID", project.property('FACEBOOK_APP_ID')
+//            //para acceder desde el codigo
+//            buildConfigField "String", "FOOD_API_KEY", project.property('FOOD_API_KEY')
+//        }
+//    }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-
-
-            resValue "string", "FACEBOOK_PROVIDER_AUTH", project.property('FACEBOOK_PROVIDER') + project.property('FACEBOOK_APP_ID')
-            resValue "string", "FACEBOOK_APP_ID", project.property('FACEBOOK_APP_ID')
-
-            //para acceder desde el codigo , por eso debe ser String con may
-            buildConfigField "String", "FOOD_API_KEY", project.property('FOOD_API_KEY')
+            buildConfigField "String", "FOOD_API_KEY", project.property("FOOD_API_KEY")
+            resValue "string", "FACEBOOK_APP_ID", project.property("FACEBOOK_APP_ID")
+            resValue "string", "FACEBOOK_PROVIDER_AUTH", project.property("FACEBOOK_PROVIDER") + project.property("FACEBOOK_APP_ID")
         }
-
         debug {
-            resValue "string", "FACEBOOK_PROVIDER_AUTH", project.property('FACEBOOK_PROVIDER') + project.property('FACEBOOK_APP_ID')
-            resValue "string", "FACEBOOK_APP_ID", project.property('FACEBOOK_APP_ID')
-            //para acceder desde el codigo
-            buildConfigField "String", "FOOD_API_KEY", project.property('FOOD_API_KEY')
+            buildConfigField "String", "FOOD_API_KEY", project.property("FOOD_API_KEY")
+            resValue "string", "FACEBOOK_APP_ID", project.property("FACEBOOK_APP_ID")
+            resValue "string", "FACEBOOK_PROVIDER_AUTH", project.property("FACEBOOK_PROVIDER") + project.property("FACEBOOK_APP_ID")
         }
     }
 }
+
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
@@ -51,16 +78,24 @@ dependencies {
     compile "com.squareup.retrofit2:retrofit:$rootProject.ext.retrofitVersion"
     compile "com.github.bumptech.glide:glide:$rootProject.ext.glideVersion"
     compile "org.greenrobot:eventbus:$rootProject.ext.eventbusVersion"
+
+    apt "com.jakewharton:butterknife-compiler:$rootProject.ext.butterknifeVersion"
     compile "com.jakewharton:butterknife:$rootProject.ext.butterknifeVersion"
 
-    compile "com.google.dagger:dagger:$rootProject.ext.daggerVersion"
-    compile "javax.annotation:jsr250-api:$rootProject.ext.jsr250Version"
+
+
     apt "com.google.dagger:dagger-compiler:$rootProject.ext.daggerVersion"
+    compile "javax.annotation:jsr250-api:$rootProject.ext.jsr250Version"
+    compile "com.google.dagger:dagger:$rootProject.ext.daggerVersion"
 
     apt "com.github.Raizlabs.DBFlow:dbflow-processor:$rootProject.ext.dbflowVersion"
     compile "com.github.Raizlabs.DBFlow:dbflow-core:$rootProject.ext.dbflowVersion"
     compile "com.github.Raizlabs.DBFlow:dbflow:$rootProject.ext.dbflowVersion"
 
+
+    compile('com.crashlytics.sdk.android:crashlytics:2.6.0@aar') {
+        transitive = true;
+    }
     compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha3'
     testCompile 'junit:junit:4.12'
 }

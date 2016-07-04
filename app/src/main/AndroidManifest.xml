@@ -34,7 +34,13 @@
             android:authorities="@string/FACEBOOK_PROVIDER_AUTH"
             android:exported="true" />
 
-        <activity android:name=".RecipeMainActivity"></activity>
+        <activity android:name=".recipemain.ui.RecipeMainActivity" />
+
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="45bd278880ab054320fca375cd4fb7fe1012c540" />
+
+        <activity android:name=".RecipeListActivity"></activity>
     </application>
 
 </manifest>

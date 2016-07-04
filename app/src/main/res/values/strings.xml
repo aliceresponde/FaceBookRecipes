@@ -2,4 +2,11 @@
     <string name="app_name">FaceBookRecipes</string>
     <string name="login.error">Imposible iniciar sersion %s</string>
     <string name="login.cancel.error">Inicio de sersion cancelado</string>
+
+    <string name="recipemain.error">Imposible obtener informacion %s</string>
+    <string name="recipemain.notice.saved">Guardado exitosamente</string>
+    <string name="recipemain.menu.action.list">Recetas guardadas</string>
+
+    <string name="global.menu.action.logout">Cerrar sesion</string>
+
 </resources>

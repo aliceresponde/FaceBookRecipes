@@ -1,10 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_recipe_main"
+    android:id="@+id/layoutContainer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.alice.facebookrecipes.RecipeMainActivity">
+    android:padding="@dimen/activity_horizontal_margin"
+    tools:context="com.example.alice.facebookrecipes.recipemain.ui.RecipeMainActivity">
 
-</android.support.constraint.ConstraintLayout>
+    <ImageView
+        android:id="@+id/imgRecipe"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/recipes_main_image_height"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/imgRecipe"
+        android:layout_centerHorizontal="true"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/imgDismiss"
+            android:layout_width="@dimen/recipe_main_icon"
+            android:layout_height="@dimen/recipe_main_icon"
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:background="@color/colorAccent"
+            android:src="@android:drawable/ic_delete"
+            android:tint="@android:color/white" />
+
+        <ImageButton
+            android:id="@+id/imgKeep"
+            android:layout_width="@dimen/recipe_main_icon"
+            android:layout_height="@dimen/recipe_main_icon"
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:background="@color/colorPrimary"
+            android:src="@android:drawable/star_big_on"
+            android:tint="@android:color/white" />
+
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_gravity="center_vertical"
+        android:visibility="gone" />
+
+
+</RelativeLayout>
