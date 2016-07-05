@@ -1,5 +1,7 @@
 package com.example.alice.facebookrecipes.recipelist;
 
+import android.util.Log;
+
 import com.example.alice.facebookrecipes.db.entities.Recipe;
 import com.example.alice.facebookrecipes.recipelist.events.RecipeListEvent;
 import com.example.alice.facebookrecipes.recipelist.ui.RecipeListView;
@@ -19,7 +21,14 @@ public class RecipeListPresenterImp implements RecipeListPresenter {
     private StoredRecipeListInteractor storedInteractor;
 
 
-//    ===========================Event ===================================================
+    public RecipeListPresenterImp(EventBus eventBus, RecipeListView view, RecipeListInteractor interactor, StoredRecipeListInteractor storedInteractor) {
+        this.eventBus = eventBus;
+        this.view = view;
+        this.interactor = interactor;
+        this.storedInteractor = storedInteractor;
+    }
+
+    //    ===========================Event ===================================================
     @Override
     public void onCreate() {
         eventBus.register(this);
@@ -37,14 +46,17 @@ public class RecipeListPresenterImp implements RecipeListPresenter {
         if (view != null){
             switch (event.getType()){
                 case  RecipeListEvent.READ_EVENT:
+                    Log.i("storage", "read" );
                     view.setRecipes(event.getRecipeList());
                     break;
 
                 case  RecipeListEvent.UPDATE_EVENT:
+                    Log.i("storage", "update");
                     view.recipeUpdated();
                     break;
 
                 case  RecipeListEvent.DELETE_EVENT:
+                    Log.i("storage", "delete");
                     Recipe recipe = event.getRecipeList().get(0);
                     view.recipeDeleted(recipe);
                     break;
@@ -77,6 +89,18 @@ public class RecipeListPresenterImp implements RecipeListPresenter {
 
     @Override
     public RecipeListView getView() {
-        return null;
+        return this.view;
     }
+
+    @Override
+    public void showAll() {
+        interactor.executeGetSavedRecipes();
+    }
+
+    @Override
+    public void showFavs() {
+        interactor.executeSearchFavsRecipes();
+    }
+
+
 }

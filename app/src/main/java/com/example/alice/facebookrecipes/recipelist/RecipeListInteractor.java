@@ -7,4 +7,5 @@ package com.example.alice.facebookrecipes.recipelist;
 
 public interface RecipeListInteractor {
     void executeGetSavedRecipes();
+    void executeSearchFavsRecipes();
 }

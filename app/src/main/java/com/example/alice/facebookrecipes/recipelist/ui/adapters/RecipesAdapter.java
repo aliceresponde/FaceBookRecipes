@@ -2,6 +2,7 @@ package com.example.alice.facebookrecipes.recipelist.ui.adapters;
 
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,6 +38,7 @@ public class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.ViewHold
     }
 
     public void setRecipes(List<Recipe> recipes) {
+        Log.i("storage", "setRecipes" + recipes.size());
         this.recipeList = recipes;
         notifyDataSetChanged();
     }
@@ -71,7 +73,7 @@ public class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.ViewHold
 
     @Override
     public int getItemCount() {
-        return 0;
+        return recipeList.size();
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
@@ -101,7 +103,7 @@ public class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.ViewHold
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    onItemClickListener.onDeleteClick(currentRecipe);
+                    onItemClickListener.onItemClick(currentRecipe);
                 }
             });
 
@@ -120,13 +122,11 @@ public class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.ViewHold
             });
 
             ShareLinkContent content = new ShareLinkContent.Builder()
-                    .setContentUrl(Uri.parse(currentRecipe.getImageURL()))
+                    .setContentUrl(Uri.parse(currentRecipe.getSourceURL()))
                     .build();
 
             fbShare.setShareContent(content);
             fbSend.setShareContent(content);
-
-
         }
     }
 }

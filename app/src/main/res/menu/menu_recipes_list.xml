@@ -8,6 +8,16 @@
         app:showAsAction="always" />
 
     <item
+        android:id="@+id/action_all"
+        android:title="@string/recipelist.menu.action.all"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_favs"
+        android:title="@string/recipelist.menu.action.favs"
+        app:showAsAction="never" />
+
+    <item
         android:id="@+id/action_logout"
         android:title="@string/global.menu.action.logout"
         app:showAsAction="never" />

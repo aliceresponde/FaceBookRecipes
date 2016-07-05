@@ -7,32 +7,40 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.bumptech.glide.Glide;
 import com.example.alice.facebookrecipes.App;
 import com.example.alice.facebookrecipes.R;
 import com.example.alice.facebookrecipes.db.entities.Recipe;
+import com.example.alice.facebookrecipes.libs.base.GlideImageLoader;
+import com.example.alice.facebookrecipes.libs.base.ImageLoader;
 import com.example.alice.facebookrecipes.recipelist.RecipeListPresenter;
+import com.example.alice.facebookrecipes.recipelist.di.RecipeListComponent;
+import com.example.alice.facebookrecipes.recipelist.events.RecipeListEvent;
 import com.example.alice.facebookrecipes.recipelist.ui.adapters.OnItemClickListener;
 import com.example.alice.facebookrecipes.recipelist.ui.adapters.RecipesAdapter;
 import com.example.alice.facebookrecipes.recipemain.ui.RecipeMainActivity;
 
+import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class RecipeListActivity extends AppCompatActivity implements RecipeListView , OnItemClickListener{
+public class RecipeListActivity extends AppCompatActivity implements RecipeListView, OnItemClickListener {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
 
-    RecipesAdapter adapter ;
-    RecipeListPresenter presenter;
+    private RecipesAdapter adapter;
+    private RecipeListPresenter presenter;
+    private RecipeListComponent component;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,15 +63,15 @@ public class RecipeListActivity extends AppCompatActivity implements RecipeListV
 //    ==============================TOOBAR======================================================
 
     @OnClick(R.id.toolbar)
-    public void onToolbarClick(){
+    public void onToolbarClick() {
         recyclerView.smoothScrollToPosition(0);
     }
 
     private void setupToolbar() {
         setSupportActionBar(toolbar);
     }
-    //    =================================MENU====&& ============ACTIONS========================
 
+    //    =================================MENU====&& ============ACTIONS========================
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -75,9 +83,16 @@ public class RecipeListActivity extends AppCompatActivity implements RecipeListV
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.action_main){
+
+
+        if (id == R.id.action_main) {
             navigateToMainScreen();
-        }else if (id == R.id.action_logout){
+        }else if (id == R.id.action_all) {
+              presenter.showAll();
+        }else if (id == R.id.action_favs) {
+              presenter.showFavs();
+        }
+        else if (id == R.id.action_logout) {
             logout();
         }
 
@@ -91,23 +106,99 @@ public class RecipeListActivity extends AppCompatActivity implements RecipeListV
     }
 
     private void navigateToMainScreen() {
-        startActivity( new Intent( this, RecipeMainActivity.class));
+        startActivity(new Intent(this, RecipeMainActivity.class));
     }
 
 //    =============================================================================================
 
     private void setupRecyclerView() {
-        recyclerView.setLayoutManager( new GridLayoutManager(this, 2));
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
         recyclerView.setAdapter(adapter);
-
     }
 
+    //    =============================Injectiosn===============================================
     private void setupInjection() {
+
+        App app = (App) getApplication();
+        component = app.getRecipeListComponent(this,this,this);
+        adapter = getAdapter();
+        presenter = getPresenter();
+
+
+//        fakeAdapterTest();
+
     }
 
-//    =========================================RecipeListView =====================================
+    private void fakeAdapterTest() {
+        ImageLoader loader = new GlideImageLoader(Glide.with(this));
+        Recipe recipe = new Recipe();
+        recipe.setFavorite(false);
+        recipe.setTitle("Prueba");
+        recipe.setSourceURL("http://static.food2fork.com/icedcoffee5766.jpg");
+        recipe.setImageURL("http://static.food2fork.com/icedcoffee5766.jpg");
+        adapter = new RecipesAdapter(this, loader , Arrays.asList(recipe));
+
+        presenter = new RecipeListPresenter() {
+            @Override
+            public void onCreate() {
+
+            }
+
+            @Override
+            public void onDestroy() {
+
+            }
+
+            @Override
+            public void getRecipes() {
+
+            }
+
+            @Override
+            public void removeRecipe(Recipe recipe) {
+
+            }
+
+            @Override
+            public void toogleFavorite(Recipe recipe) {
+
+            }
+
+            @Override
+            public void onEvnetMainThread(RecipeListEvent event) {
+
+            }
+
+            @Override
+            public RecipeListView getView() {
+                return null;
+            }
+
+            @Override
+            public void showAll() {
+
+            }
+
+            @Override
+            public void showFavs() {
+
+            }
+        };
+    }
+
+
+    public RecipeListPresenter getPresenter() {
+        return component.getPresenter();
+    }
+
+    public RecipesAdapter getAdapter() {
+        return component.getAdapter();
+    }
+
+    //    =========================================RecipeListView =====================================
     @Override
     public void setRecipes(List<Recipe> data) {
+        Log.i("storage", "read" + data.size());
         adapter.setRecipes(data);
     }
 
@@ -129,7 +220,7 @@ public class RecipeListActivity extends AppCompatActivity implements RecipeListV
 
     @Override
     public void onItemClick(Recipe recipe) {
-        Intent intent = new Intent( Intent.ACTION_VIEW, Uri.parse(recipe.getSourceURL()));
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(recipe.getSourceURL()));
         startActivity(intent);
     }
 

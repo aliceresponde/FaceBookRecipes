@@ -14,4 +14,6 @@ public interface RecipeListRepository {
 //    ====================StoredRecipeListInteractor========================
     void upateRecipe(Recipe recipe);
     void deleteRecipe(Recipe recipe);
+
+    void getFavoritesRecipes();
 }

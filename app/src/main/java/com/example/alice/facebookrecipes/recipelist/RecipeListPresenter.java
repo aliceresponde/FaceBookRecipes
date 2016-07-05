@@ -22,4 +22,8 @@ public interface RecipeListPresenter {
 
 //    ==============================VIEW======================
     RecipeListView getView();
+
+//    ============================Menu =========================
+    void showAll();
+    void showFavs();
 }
