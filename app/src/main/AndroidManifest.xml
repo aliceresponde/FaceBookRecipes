@@ -40,7 +40,7 @@
             android:name="io.fabric.ApiKey"
             android:value="45bd278880ab054320fca375cd4fb7fe1012c540" />
 
-        <activity android:name=".RecipeListActivity" android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".recipelist.ui.RecipeListActivity" android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

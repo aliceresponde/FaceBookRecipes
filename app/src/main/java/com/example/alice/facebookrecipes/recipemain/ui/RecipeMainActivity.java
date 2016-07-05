@@ -20,14 +20,13 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.example.alice.facebookrecipes.App;
 import com.example.alice.facebookrecipes.R;
-import com.example.alice.facebookrecipes.RecipeListActivity;
+import com.example.alice.facebookrecipes.recipelist.ui.RecipeListActivity;
 import com.example.alice.facebookrecipes.db.entities.Recipe;
 import com.example.alice.facebookrecipes.libs.base.ImageLoader;
 import com.example.alice.facebookrecipes.recipemain.RecipeMainPresenter;
 import com.example.alice.facebookrecipes.recipemain.SwipeGestureListener;
 import com.example.alice.facebookrecipes.recipemain.SwipwGestureDetector;
 import com.example.alice.facebookrecipes.recipemain.di.RecipeMainComponent;
-import com.example.alice.facebookrecipes.recipemain.evnents.RecipeMainEvent;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
