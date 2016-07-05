@@ -4,9 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.view.GestureDetector;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -20,6 +24,8 @@ import com.example.alice.facebookrecipes.RecipeListActivity;
 import com.example.alice.facebookrecipes.db.entities.Recipe;
 import com.example.alice.facebookrecipes.libs.base.ImageLoader;
 import com.example.alice.facebookrecipes.recipemain.RecipeMainPresenter;
+import com.example.alice.facebookrecipes.recipemain.SwipeGestureListener;
+import com.example.alice.facebookrecipes.recipemain.SwipwGestureDetector;
 import com.example.alice.facebookrecipes.recipemain.di.RecipeMainComponent;
 import com.example.alice.facebookrecipes.recipemain.evnents.RecipeMainEvent;
 
@@ -27,7 +33,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class RecipeMainActivity extends AppCompatActivity implements RecipeMainView{
+public class RecipeMainActivity extends AppCompatActivity implements RecipeMainView, SwipeGestureListener{
 
     @BindView(R.id.imgRecipe)
     ImageView imgRecipe;
@@ -53,8 +59,21 @@ public class RecipeMainActivity extends AppCompatActivity implements RecipeMainV
 
         setupInject();
         setupImageLoader();
+        setupGestureDetection();
         presenter.onCreate();
         presenter.getNextRecipe();
+    }
+
+    private void setupGestureDetection() {
+        final GestureDetector gestureDetector = new GestureDetector( this, new SwipwGestureDetector(this));
+        View.OnTouchListener gestureOnTouchListener = new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                return gestureDetector.onTouchEvent(motionEvent);
+            }
+        };
+
+        imgRecipe.setOnTouchListener(gestureOnTouchListener);
     }
 
     private void setupImageLoader() {
@@ -119,15 +138,17 @@ public class RecipeMainActivity extends AppCompatActivity implements RecipeMainV
     }
 
 
-    //   ========================== click events ===============================================
+    //   ========================== click events + Gesture Detector===============================================
 
     @OnClick(R.id.imgDismiss)
+    @Override
     public void onDismiss(){
         presenter.dismissRecipe();
 
     }
 
     @OnClick(R.id.imgKeep)
+    @Override
     public void onKeep(){
         if (currentRecipe != null){
             presenter.saveRecipe(currentRecipe);
@@ -163,12 +184,39 @@ public class RecipeMainActivity extends AppCompatActivity implements RecipeMainV
 
     @Override
     public void saveAnimation() {
-
+        Animation anim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.save_animation);
+        anim.setAnimationListener(getAnimationListener());
+        imgRecipe.startAnimation(anim);
     }
 
     @Override
     public void dismissAnimation() {
+        Animation anim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.dismiss_animation);
+        anim.setAnimationListener(getAnimationListener());
+        imgRecipe.startAnimation(anim);
+    }
 
+    private Animation.AnimationListener getAnimationListener(){
+        return  new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                clearImage();
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        };
+    }
+
+    private void clearImage(){
+        imgRecipe.setImageResource(0);
     }
 
     @Override
