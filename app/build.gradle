@@ -92,10 +92,14 @@ dependencies {
     compile "com.github.Raizlabs.DBFlow:dbflow-core:$rootProject.ext.dbflowVersion"
     compile "com.github.Raizlabs.DBFlow:dbflow:$rootProject.ext.dbflowVersion"
 
+    testCompile "org.robolectric:robolectric:$rootProject.ext.robolectricVersion" // UI test
+    testCompile "org.mockito:mockito-all:$rootProject.ext.mockitoVersion"
+    testCompile "junit:junit:$rootProject.ext.junitVersion"
+
 
     compile('com.crashlytics.sdk.android:crashlytics:2.6.0@aar') {
         transitive = true;
     }
     compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha3'
-    testCompile 'junit:junit:4.12'
+
 }

@@ -50,4 +50,8 @@ ext{
     eventbusVersion = '3.0.0'
     glideVersion = '3.7.0'
 
+    robolectricVersion = '3.0'
+    mockitoVersion ='1.10.19'
+    junitVersion = '4.12'
+
 }
